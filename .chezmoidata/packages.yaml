@@ -1,0 +1,22 @@
+packages:
+  darwin:
+    brews:
+    - 'zoxide'
+    - 'ast-grep'
+    - 'fnm'
+    - 'fzf'
+    - 'kanata'
+    - 'neovim'
+    - 'tmux'
+    - 'git-delta'
+    casks:
+    - 'alt-tab'
+    - 'claude-code'
+    - 'codex'
+    - 'ghostty'
+    - 'spotify'
+    - 'hammerspoon'
+    - 'font-3270-nerd-font'
+    - 'input-source-pro'
+    - 'jordanbaird-ice'
+    - 'battery'
