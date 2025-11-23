@@ -1,0 +1,38 @@
+# Config updated for new Ghostty keybinding system
+
+background = #ffffff
+foreground = #000000
+selection-background = #b4d8fd
+selection-foreground = #000000
+cursor-color = #000000
+cursor-text = #ffffff
+
+palette = 0=#b4d8fd
+palette = 1=#ad1805
+palette = 2=#355d61
+palette = 3=#78492a
+palette = 4=#0058a1
+palette = 5=#9c2191
+palette = 6=#703daa
+palette = 7=#000000
+palette = 8=#8a99a6
+palette = 9=#ad1805
+palette = 10=#174145
+palette = 11=#78492a
+palette = 12=#003f73
+palette = 13=#9c2191
+palette = 14=#441ea1
+palette = 15=#000000
+
+
+keybind = cmd+KeyG=text:\x02g
+keybind = cmd+Digit1=text:\x021
+keybind = cmd+Digit2=text:\x022
+keybind = cmd+Digit3=text:\x023
+keybind = cmd+Digit4=text:\x024
+keybind = cmd+Digit5=text:\x025
+keybind = cmd+KeyA=text:\x02
+keybind = cmd+KeyF=text:\x02[?
+keybind = cmd+KeyU=text:\x15
+
+macos-titlebar-style = native
