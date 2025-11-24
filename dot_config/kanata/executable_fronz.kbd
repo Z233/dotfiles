@@ -1,0 +1,156 @@
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+)
+
+(defsrc
+  esc   f1    f2    f3    f4    f5    f6    f7    f8    f9    f10   f11   f12
+  lsgt  1     2     3     4     5     6     7     8     9     0     -     =     bspc
+  tab   q     w     e     r     t     y     u     i     o     p     [     ]
+  caps  a     s     d     f     g     h     j     k     l     ;     '     \     ret
+  lsft  grv   z     x     c     v     b     n     m     ,     .     /     rsft
+  fn    lctl  lalt  lmet              spc               rmet  ralt  ◀    ▲ ▼    ▶  
+)
+
+(deflayer default
+  esc   f1    f2    f3    f4    f5    f6    f7    f8    f9    f10   f11   f12
+  lsgt  1     2     3     4     5     6     7     8     9     0     -     =     bspc
+  tab   q     w     e     r     t     y     u     i     o     p     [     ]
+  @ascaps  a     s     d     f     g     h     j     k     l     ;     '     \     ret
+  lsft  grv   z     x     c     v     b     n     m     ,     .     /     rsft
+  @fnl  lctl  lalt  lmet              @spc               rmet  ralt  ◀    ▲ ▼    ▶  
+)
+
+(deflayer navigation
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     del
+  _     _     _     _     _     _     _     _     _     _     _     ⤒     ⤓
+  _     _     _     _     _     _     ◀     ▼     ▲     ▶     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _                 _                 _     _     ⤒    ⇞ ⇟    ⤓
+)
+
+
+(deflayer win-caps
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _                 @ime              _     _     _    _ _    _
+)
+
+
+
+(defalias
+  spc (tap-hold 50 250 spc (layer-toggle navigation))
+)
+
+
+(deflayer nvim
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  @nc   _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  @fnl  _     _     _                 @spc              _     _     _    _ _    _
+)
+
+(deflayer win-remote
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  lctl  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     lmeta     _     _                 _              _     _     _    _ _    _
+)
+
+
+(defvirtualkeys
+  vctrl lctl
+)
+
+(deflayer nvim-overrides
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  @ctab _     @cw   _     @cr   _     _     @cu   _     @co   _     _     _
+  _     _     _     @cd   _     _     @ch   @cj   @ck   @cl   _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _                 @cspc             _     _     _    _ _    _
+)
+
+
+
+(defalias
+  nc (multi lmeta (layer-while-held nvim-overrides) (on-release release-virtualkey vctrl))
+
+  ;; Tab in the nvim-overrides layer:
+  ;;   "fork" checks if lmeta is currently pressed:
+  ;;     - If lmeta is pressed, run the second action:
+  ;;     - Otherwise, do normal tab.
+  ctab (fork tab 
+            (multi (release-key lmeta) 
+                    lctl (on-press press-virtualkey vctrl) 
+                    tab) 
+            (lmeta))
+  cw (unmod lctl w)
+  cr (unmod lctl r)
+  cu (unmod lctl u)
+  co (fork (unmod lctl o) 
+            (multi lmeta o) 
+            (lsft))
+  cd (unmod lctl d)
+  ch (unmod lctl h)
+  cj (unmod lctl j)
+  ck (unmod lctl k)
+  cl (unmod lctl l)
+  cspc (unmod lctl spc)
+)
+
+(platform (win)
+  (defalias
+    ascaps (tap-hold-press 50 200 lctl (multi lctl (layer-toggle win-caps)))
+    ime (unmod lmeta spc)
+  )
+)
+
+(platform (macos)
+  (deflayer macos-caps
+    _     _     _     _     _     _     _     _     _     _     _     _     _ 
+    _     _     _     _     _     _     _     _     _     _     _     _     _     _
+    f13   _     _     _     _     _     _     _     _     _     _     _     _
+    _     _     _     _     _     _     _     _     _     _     _     _     _     _
+    _     _     _     _     _     _     _     _     _     _     _     _     _
+    _     _     _     _                 @ime              _     _     _    _ _    _
+  )
+)
+
+(platform (macos)
+  ;; macOS function key glyphs
+  (deflayer fn
+  ;;_     brdn  brup  @mc   @sls  @dtn  @dnd  prev  pp    next  mute  vold  volu
+    _     🔅    🔆    @mc   @sls  @dtn  @dnd  ◀◀    ▶⏸    ▶▶    🔇    🔉    🔊 
+    _     _     _     _     _     _     _     _     _     _     _     _     _     _
+    _     _     _     _     lrld     _     _     _     _     _     _     _     _
+    _     _     _     _     _     _     _     _     _     _     _     _     _     _
+    _     _     _     _     _     _     _     _     _     _     _     _     _
+    _     _     _     _                 _                 _     _     _    _ _    _
+  )
+)
+
+(platform (macos)
+  (defalias
+    ascaps (tap-hold-press 50 200 lmeta (multi lmeta (layer-toggle macos-caps)))
+    ime (unmod lctl spc)
+
+    fnl (tap-hold 200 200 fn (layer-toggle fn))
+
+    ;; macOS function key glyphs
+    mc C-up ;; Mission Control
+    sls M-spc ;; Spotlight Search
+    dtn S-C-A-M-f5 ;; Dictation
+    dnd S-C-A-M-f6 ;; Do Not Disturb
+    lp S-C-A-M-l ;; Launchpad
+  )
+)
+

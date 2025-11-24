@@ -1,0 +1,21 @@
+{{- /* Kanata LaunchDaemon configuration */ -}}
+{{- /* Detects homebrew path based on architecture (ARM vs Intel Mac) */ -}}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.example.kanata</string>
+  <key>ProgramArguments</key><array>
+{{- if eq .chezmoi.arch "arm64" }}
+    <string>/opt/homebrew/bin/kanata</string>
+{{- else }}
+    <string>/usr/local/bin/kanata</string>
+{{- end }}
+    <string>-c</string><string>{{ .chezmoi.homeDir }}/.config/kanata/fronz.kbd</string>
+    <string>--port</string><string>9999</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardErrorPath</key>
+  <string>/var/log/kanata.err</string>
+</dict></plist>

@@ -1,0 +1,42 @@
+#!/bin/bash
+# Create symlink for .tmux.conf after .tmux external is installed
+
+set -euo pipefail
+
+TMUX_DIR="{{ .chezmoi.homeDir }}/.tmux"
+TMUX_CONF="${TMUX_DIR}/.tmux.conf"
+SYMLINK="{{ .chezmoi.homeDir }}/.tmux.conf"
+
+# Check if .tmux directory exists
+if [[ ! -d "${TMUX_DIR}" ]]; then
+    echo "⚠️  .tmux directory not found, skipping symlink creation"
+    echo "   Run 'chezmoi update' to install external resources"
+    exit 0
+fi
+
+# Check if .tmux.conf exists in .tmux directory
+if [[ ! -f "${TMUX_CONF}" ]]; then
+    echo "⚠️  ${TMUX_CONF} not found, skipping symlink creation"
+    exit 0
+fi
+
+# Create or update symlink
+if [[ -L "${SYMLINK}" ]]; then
+    CURRENT_TARGET=$(readlink "${SYMLINK}")
+    if [[ "${CURRENT_TARGET}" == ".tmux/.tmux.conf" ]]; then
+        echo "✓ .tmux.conf symlink already points to .tmux/.tmux.conf"
+        exit 0
+    else
+        echo "🔄 Updating .tmux.conf symlink..."
+    fi
+elif [[ -e "${SYMLINK}" ]]; then
+    echo "⚠️  ${SYMLINK} exists but is not a symlink"
+    echo "   Please remove it manually: rm ~/.tmux.conf"
+    exit 1
+else
+    echo "🔗 Creating .tmux.conf symlink..."
+fi
+
+# Create symlink (relative path for portability)
+ln -sf .tmux/.tmux.conf "${SYMLINK}"
+echo "✓ Created symlink: ~/.tmux.conf -> .tmux/.tmux.conf"
