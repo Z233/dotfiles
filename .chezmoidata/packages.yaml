@@ -9,6 +9,7 @@ packages:
     - 'neovim'
     - 'tmux'
     - 'git-delta'
+    - 'lazygit'
     casks:
     - 'alt-tab'
     - 'claude-code'
@@ -20,3 +21,6 @@ packages:
     - 'input-source-pro'
     - 'jordanbaird-ice'
     - 'battery'
+    - 'arc'
+    - 'raycast'
+    - 'visual-studio-code'
