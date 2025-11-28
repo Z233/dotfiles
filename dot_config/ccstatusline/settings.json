@@ -1,0 +1,63 @@
+{
+  "version": 3,
+  "lines": [
+    [
+      {
+        "id": "442e9b66-df04-49dd-a01f-305372169493",
+        "type": "model",
+        "rawValue": true
+      },
+      {
+        "id": "b73e73a0-f59d-40f2-be45-e64f416cee14",
+        "type": "separator"
+      },
+      {
+        "id": "3c10af81-513b-453b-84f8-f9efe7650031",
+        "type": "custom-command",
+        "color": "brightRed",
+        "commandPath": "curl -s 'http://localhost:4141/usage' \\\n| jq -r '.quota_snapshots.premium_interactions.percent_remaining' \\\n| awk '{printf \"%.1f%%\\n\", 100 - $1}'",
+        "preserveColors": false,
+        "timeout": 2000
+      },
+      {
+        "id": "3e056c0c-8305-4c0c-b3d2-37cde3a2caaf",
+        "type": "separator"
+      },
+      {
+        "id": "3",
+        "type": "context-length",
+        "color": "blue",
+        "rawValue": true
+      },
+      {
+        "id": "4",
+        "type": "separator"
+      },
+      {
+        "id": "7",
+        "type": "git-changes",
+        "color": "green",
+        "rawValue": true
+      }
+    ],
+    [],
+    []
+  ],
+  "flexMode": "full-minus-40",
+  "compactThreshold": 60,
+  "colorLevel": 2,
+  "inheritSeparatorColors": false,
+  "globalBold": false,
+  "powerline": {
+    "enabled": false,
+    "separators": [
+      ""
+    ],
+    "separatorInvertBackground": [
+      false
+    ],
+    "startCaps": [],
+    "endCaps": [],
+    "autoAlign": false
+  }
+}

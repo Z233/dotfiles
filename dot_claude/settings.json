@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://localhost:4141",
+    "ANTHROPIC_AUTH_TOKEN": "dummy",
+    "ANTHROPIC_MODEL": "claude-opus-4.5",
+    "ANTHROPIC_SMALL_FAST_MODEL": "grok-code-fast-1",
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_TELEMETRY": "1",
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Edit(~/Developer/**)",
+      "Grep(~/Developer/**)",
+      "Glob(**)",
+      "LS(**)",
+      "Bash(git add:*)",
+      "Bash(git mv:*)",
+      "Bash(git rm:*)",
+      "Bash(git stash:*)",
+      "Bash(git diff:*)",
+      "Bash(git commit:*)",
+      "Bash(ls:*)",
+      "Bash(tree:*)",
+      "Bash(pwd:*)",
+      "Bash(which:*)",
+      "Bash(find:*)",
+      "Bash(cd:*)",
+      "Read(~/.config/nvim/**)",
+      "Edit(~/.config/nvim/**)",
+      "Bash(openspec:*)",
+      "Bash(ast-grep:*)",
+      "mcp__ide"
+    ],
+    "deny": [
+      "Read(~/Library/**)",
+      "Edit(~/Library/**)",
+      "Read(~/Dropbox/**)",
+      "Edit(~/Dropbox/**)",
+      "Read(//etc/**)",
+      "Edit(//etc/**)",
+      "Bash(su:*)",
+      "Bash(sudo:*)",
+      "Bash(env:*)",
+      "Bash(printenv:*)",
+      "Bash(passwd:*)",
+      "Bash(history:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(rsync:*)",
+      "Bash(scp:*)",
+      "Bash(sftp:*)",
+      "Bash(socat:*)",
+      "Bash(ssh:*)",
+      "Bash(nc:*)",
+      "Bash(ncat:*)",
+      "Bash(netcat:*)",
+      "Bash(nmap:*)",
+      "Bash(git push:*)"
+    ],
+    "ask": [
+      "Read(~/.*)",
+      "Edit(~/.*)"
+    ],
+    "additionalDirectories": [
+      "~/.claude",
+      "~/Developer"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf 'Responding finished' | shortcuts run \"Notify\""
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "feature-dev@claude-code-plugins": true,
+    "commit-commands@claude-code-plugins": true
+  },
+  "alwaysThinkingEnabled": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754047462916
+  }
+}
