@@ -18,7 +18,7 @@
   tab   q     w     e     r     t     y     u     i     o     p     [     ]
   @ascaps  a     s     d     f     g     h     j     k     l     ;     '     \     ret
   lsft  grv   z     x     c     v     b     n     m     ,     .     /     rsft
-  @fnl  lctl  lalt  lmet              @spc               rmet  ralt  ◀    ▲ ▼    ▶  
+  @fnl  _     lctl  lalt              @spc               rmet  ralt  ◀    ▲ ▼    ▶  
 )
 
 (deflayer navigation
@@ -53,7 +53,7 @@
   _     _     _     _     _     _     _     _     _     _     _     _     _
   @nc   _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _     _     _     _     _     _     _     _     _     _     _
-  @fnl  _     _     _                 @spc              _     _     _    _ _    _
+  @fnl  _     lctl  lalt                 @spc              _     _     _    _ _    _
 )
 
 (deflayer win-remote

@@ -32,7 +32,10 @@
       "Edit(~/.config/nvim/**)",
       "Bash(openspec:*)",
       "Bash(ast-grep:*)",
-      "mcp__ide"
+      "mcp__ide",
+      "WebSearch",
+      "WebFetch",
+      "Skill"
     ],
     "deny": [
       "Read(~/Library/**)",
@@ -64,6 +67,7 @@
       "Read(~/.*)",
       "Edit(~/.*)"
     ],
+    "defaultMode": "plan",
     "additionalDirectories": [
       "~/.claude",
       "~/Developer"
@@ -94,5 +98,6 @@
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754047462916
-  }
+  },
+  "includeCoAuthoredBy": false
 }

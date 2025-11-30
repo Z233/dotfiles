@@ -34,5 +34,7 @@ keybind = cmd+Digit5=text:\x025
 keybind = cmd+KeyA=text:\x02
 keybind = cmd+KeyF=text:\x02[?
 keybind = cmd+KeyU=text:\x15
+keybind = cmd+KeyD=text:\x04
+keybind = cmd+KeyO=text:\x0f
 
 macos-titlebar-style = native
