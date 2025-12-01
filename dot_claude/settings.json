@@ -1,15 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
-    "ANTHROPIC_BASE_URL": "http://localhost:4141",
-    "ANTHROPIC_AUTH_TOKEN": "dummy",
-    "ANTHROPIC_MODEL": "claude-opus-4.5",
-    "ANTHROPIC_SMALL_FAST_MODEL": "grok-code-fast-1",
     "DISABLE_BUG_COMMAND": "1",
     "DISABLE_ERROR_REPORTING": "1",
     "DISABLE_TELEMETRY": "1",
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
   },
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Edit(~/Developer/**)",
@@ -73,6 +70,7 @@
       "~/Developer"
     ]
   },
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -93,11 +91,11 @@
   },
   "enabledPlugins": {
     "feature-dev@claude-code-plugins": true,
-    "commit-commands@claude-code-plugins": true
+    "commit-commands@claude-code-plugins": true,
+    "document-skills@anthropic-agent-skills": true
   },
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754047462916
-  },
-  "includeCoAuthoredBy": false
+  }
 }
