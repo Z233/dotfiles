@@ -94,6 +94,7 @@
     "commit-commands@claude-code-plugins": true,
     "document-skills@anthropic-agent-skills": true
   },
+  "skipWebFetchPreflight": true,
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754047462916

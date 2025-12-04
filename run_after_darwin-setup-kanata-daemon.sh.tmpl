@@ -55,45 +55,40 @@ cat > "${TEMP_PLIST}" << 'EOF'
 </dict></plist>
 EOF
 
-# Check if plist needs updating
-NEEDS_UPDATE=false
-
-if [[ ! -f "${PLIST_PATH}" ]]; then
-    echo "  LaunchDaemon plist not found, will create it"
-    NEEDS_UPDATE=true
-elif ! diff -q "${TEMP_PLIST}" "${PLIST_PATH}" &> /dev/null; then
-    echo "  LaunchDaemon plist has changed, will update it"
-    NEEDS_UPDATE=true
-else
+# Check if plist needs updating (no sudo required - plist files are world-readable)
+if [[ -f "${PLIST_PATH}" ]] && diff -q "${TEMP_PLIST}" "${PLIST_PATH}" &> /dev/null; then
     echo -e "${GREEN}✓ LaunchDaemon plist is already up-to-date${NC}"
+    exit 0
 fi
 
-# Update if needed
-if [[ "${NEEDS_UPDATE}" == "true" ]]; then
-    echo "  Requesting sudo access to install LaunchDaemon..."
+# Plist needs to be created or updated
+if [[ ! -f "${PLIST_PATH}" ]]; then
+    echo "  LaunchDaemon plist not found, will create it"
+else
+    echo "  LaunchDaemon plist has changed, will update it"
+fi
 
-    # Check if daemon is currently loaded
-    DAEMON_LOADED=false
-    if sudo launchctl print system/"${DAEMON_LABEL}" &> /dev/null; then
-        DAEMON_LOADED=true
-        echo "  Unloading existing daemon..."
-        sudo launchctl bootout system/"${DAEMON_LABEL}" 2>/dev/null || true
-    fi
+echo "  Requesting sudo access to install LaunchDaemon..."
 
-    # Copy the plist with sudo
-    sudo cp "${TEMP_PLIST}" "${PLIST_PATH}"
-    sudo chown root:wheel "${PLIST_PATH}"
-    sudo chmod 644 "${PLIST_PATH}"
+# Check if daemon is currently loaded
+if sudo launchctl print system/"${DAEMON_LABEL}" &> /dev/null; then
+    echo "  Unloading existing daemon..."
+    sudo launchctl bootout system/"${DAEMON_LABEL}" 2>/dev/null || true
+fi
 
-    # Load the daemon
-    echo "  Loading Kanata LaunchDaemon..."
-    if sudo launchctl bootstrap system "${PLIST_PATH}"; then
-        echo -e "${GREEN}✓ Kanata LaunchDaemon installed and loaded successfully${NC}"
-    else
-        echo -e "${RED}✗ Failed to load LaunchDaemon${NC}"
-        echo "  Check logs: sudo tail -f /var/log/kanata.err"
-        exit 1
-    fi
+# Copy the plist with sudo
+sudo cp "${TEMP_PLIST}" "${PLIST_PATH}"
+sudo chown root:wheel "${PLIST_PATH}"
+sudo chmod 644 "${PLIST_PATH}"
+
+# Load the daemon
+echo "  Loading Kanata LaunchDaemon..."
+if sudo launchctl bootstrap system "${PLIST_PATH}"; then
+    echo -e "${GREEN}✓ Kanata LaunchDaemon installed and loaded successfully${NC}"
+else
+    echo -e "${RED}✗ Failed to load LaunchDaemon${NC}"
+    echo "  Check logs: sudo tail -f /var/log/kanata.err"
+    exit 1
 fi
 
 # Verify the daemon is running

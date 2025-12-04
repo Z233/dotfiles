@@ -27,3 +27,8 @@ customCommands:
       git diff -U0 HEAD -- {{.SelectedFile.Name | quote}} | grep -m1 '^@@' | sed -E 's/.*\+([0-9]+).*/\1/'
 
     output: log
+  - key: 'O'
+    context: 'commitFiles'
+    description: 'Open diff in VSCode'
+    command: 'git difftool -y --tool=vscode {{.SelectedCommit.Sha}}^ {{.SelectedCommit.Sha}} -- {{.SelectedCommitFile.Name | quote}}'
+    output: log
