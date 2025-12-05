@@ -27,6 +27,8 @@
       "Bash(cd:*)",
       "Read(~/.config/nvim/**)",
       "Edit(~/.config/nvim/**)",
+      "Read(~/.claude/**)",
+      "Edit(~/.claude/**)",
       "Bash(openspec:*)",
       "Bash(ast-grep:*)",
       "mcp__ide",
