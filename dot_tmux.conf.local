@@ -389,6 +389,10 @@ tmux_conf_urlscan_options="--compact --dedupe"
 # lazygit
 bind g new-window -n 'lazygit' lazygit
 
+# scroll up/down directly
+bind C-u copy-mode -u
+bind C-d copy-mode \; send-keys C-d
+
 # increase history size
 #set -g history-limit 10000
 
