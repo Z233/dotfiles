@@ -27,8 +27,8 @@
       "Bash(cd:*)",
       "Read(~/.config/nvim/**)",
       "Edit(~/.config/nvim/**)",
-      "Read(~/.claude/**)",
-      "Edit(~/.claude/**)",
+      "Read(~/.claude/plans/**)",
+      "Edit(~/.claude/plans/**)",
       "Bash(openspec:*)",
       "Bash(ast-grep:*)",
       "mcp__ide",
@@ -72,8 +72,18 @@
       "~/Developer"
     ]
   },
-  "model": "opus",
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f \"$CLAUDE_PROJECT_DIR/AGENTS.md\" ]; then cat \"$CLAUDE_PROJECT_DIR/AGENTS.md\"; fi"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "",
