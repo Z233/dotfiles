@@ -99,6 +99,7 @@ plugins=(
   git
   zsh-vi-mode
   tmux
+  fzf-tab
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
@@ -151,11 +152,11 @@ alias cdx='codex --sandbox=danger-full-access --ask-for-approval=never -c sandbo
 function cc {
   ANTHROPIC_BASE_URL=http://localhost:4141 \
   ANTHROPIC_AUTH_TOKEN=dummy \
-  ANTHROPIC_MODEL=claude-opus-4.5 \
+  ANTHROPIC_MODEL=claude-sonnet-4.5 \
   ANTHROPIC_SMALL_FAST_MODEL=grok-code-fast-1 \
-  ANTHROPIC_DEFAULT_HAIKU_MODEL=grok-code-fast-1
+  ANTHROPIC_DEFAULT_HAIKU_MODEL=grok-code-fast-1 \
   ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-4.5 \
-  ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4.5 \
+  ANTHROPIC_DEFAULT_OPUS_MODEL=claude-sonnet-4.5 \
   claude "$@"
 }
 
