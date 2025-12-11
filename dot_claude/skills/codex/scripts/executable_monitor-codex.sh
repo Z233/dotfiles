@@ -25,11 +25,30 @@ echo
 ERROR_RETRY_COUNT=0
 MAX_ERROR_RETRIES=3
 LAST_LINE_COUNT=0
+LAST_STATUS=""
+
+# Helper function to print status with smart line management
+print_status() {
+    local status="$1"
+
+    if [ "$status" = "$LAST_STATUS" ]; then
+        # Same status - overwrite line
+        printf "\r%-100s" "$status"
+    else
+        # Status changed - new line
+        if [ -n "$LAST_STATUS" ]; then
+            echo ""  # Complete the previous line
+        fi
+        printf "%s" "$status"
+        LAST_STATUS="$status"
+    fi
+}
 
 for i in $(seq 1 "$MAX_ITERATIONS"); do
     # Check if session still exists
     if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
-        echo "[$i $(date +%H:%M:%S)] ✓ Codex completed (session closed)"
+        echo ""  # Complete any in-progress line
+        echo "✓ Codex completed (session closed)"
         break
     fi
 
@@ -47,18 +66,21 @@ for i in $(seq 1 "$MAX_ITERATIONS"); do
         ERROR_RETRY_COUNT=$((ERROR_RETRY_COUNT + 1))
 
         if [ $ERROR_RETRY_COUNT -le $MAX_ERROR_RETRIES ]; then
-            echo "[$i $(date +%H:%M:%S)] ⚠️  Stream error detected (retry $ERROR_RETRY_COUNT/$MAX_ERROR_RETRIES)"
-            echo "[$i $(date +%H:%M:%S)] → Sending 'Continue' to resume..."
+            echo ""  # Complete any in-progress line
+            echo "⚠️  Stream error detected (retry $ERROR_RETRY_COUNT/$MAX_ERROR_RETRIES)"
+            echo "→ Sending 'Continue' to resume..."
 
             # Send "Continue" to the session to resume codex
             tmux send-keys -t "$SESSION_NAME" "Continue" Enter
 
-            # Reset and wait for reconnection
+            # Reset status tracking and wait for reconnection
+            LAST_STATUS=""
             LAST_LINE_COUNT=0
             sleep 5
             continue
         else
-            echo "[$i $(date +%H:%M:%S)] ❌ Too many stream errors ($MAX_ERROR_RETRIES retries exhausted)"
+            echo ""  # Complete any in-progress line
+            echo "❌ Too many stream errors ($MAX_ERROR_RETRIES retries exhausted)"
             echo
             echo "=== Final Output (with errors) ==="
             echo "$FULL_OUTPUT" | tail -200
@@ -69,7 +91,8 @@ for i in $(seq 1 "$MAX_ITERATIONS"); do
     # Check for definitive completion markers (but NOT if there was an error)
     if echo "$CURRENT_OUTPUT" | grep -qE "^tokens used$" && \
        ! echo "$CURRENT_OUTPUT" | grep -qE "ERROR:.*stream"; then
-        echo "[$i $(date +%H:%M:%S)] ✓ Codex completed successfully (found completion marker)"
+        echo ""  # Complete any in-progress line
+        echo "✓ Codex completed successfully (found completion marker)"
         echo
         echo "=== Final Output ==="
         echo "$FULL_OUTPUT" | tail -200
@@ -78,23 +101,24 @@ for i in $(seq 1 "$MAX_ITERATIONS"); do
 
     # Show progress based on what's happening
     if echo "$CURRENT_OUTPUT" | grep -qE "^thinking$"; then
-        echo "[$i $(date +%H:%M:%S)] 🤔 Codex thinking..."
+        print_status "🤔 Codex thinking..."
     elif echo "$CURRENT_OUTPUT" | grep -qE "^exec$"; then
-        echo "[$i $(date +%H:%M:%S)] ⚙️ Codex executing command..."
+        print_status "⚙️ Codex executing command..."
     elif echo "$CURRENT_OUTPUT" | grep -qE "^codex$"; then
-        echo "[$i $(date +%H:%M:%S)] 💬 Codex responding..."
+        print_status "💬 Codex responding..."
     elif [ "$CURRENT_LINE_COUNT" -gt "$LAST_LINE_COUNT" ]; then
         NEW_LINES=$((CURRENT_LINE_COUNT - LAST_LINE_COUNT))
-        echo "[$i $(date +%H:%M:%S)] ⏳ Codex running (output growing: +$NEW_LINES lines)"
+        print_status "⏳ Codex running (output growing: +$NEW_LINES lines)"
     else
         # Output not growing - just show we're still monitoring
-        echo "[$i $(date +%H:%M:%S)] ⏳ Processing..."
+        print_status "⏳ Processing..."
     fi
 
     LAST_LINE_COUNT=$CURRENT_LINE_COUNT
     sleep 2
 done
 
+echo ""  # Complete any in-progress line
 echo
 echo "=== Final Output ==="
 # Capture full output or indicate session is closed

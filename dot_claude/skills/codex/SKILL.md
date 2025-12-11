@@ -1,16 +1,16 @@
 ---
 name: codex
 description: Use when the user asks to run Codex CLI (codex exec, codex resume) or references OpenAI Codex for code analysis, refactoring, or automated editing
-allowed-tools: Bash, Read, AskUserQuestion
+allowed-tools: Bash, BashOutput, Read, AskUserQuestion
 ---
 
 # Codex Skill Guide
 
 ## Running a Task
-1. **Check for existing codex session first**: Before starting a new task, check if there's a recent codex session that can be reused:
-   - Run `codex exec --skip-git-repo-check resume --last --dry-run` to check if a resumable session exists
+1. Check for existing codex session first: Before starting a new task, check the current conversation context for any recent codex sessions:
+   - Look for session names in the format `codex-YYYYMMDD-HHMMSS` mentioned in recent messages
    - If a session exists and is relevant to the current task, prefer resuming it instead of starting new
-   - Only start a new session if no existing session is found or if the task is unrelated
+   - Only start a new session if no existing session is found in context or if the task is unrelated
 2. Ask the user (via `AskUserQuestion`) which model to run (`gpt-5.1-codex-max` or `gpt-5.1`) AND which reasoning effort to use (`high`, `medium`, or `low`) in a **single prompt with two questions** (only when starting a new session - skip for resume).
 3. Select the sandbox mode required for the task; default to `--sandbox=read-only` unless edits or network access are necessary.
 4. Assemble the codex command with the appropriate options:
@@ -21,17 +21,16 @@ allowed-tools: Bash, Read, AskUserQuestion
    - `-C, --cd <DIR>`
    - `--skip-git-repo-check`
 5. Always use --skip-git-repo-check.
-6. **Execute via tmux** with intelligent completion detection:
+6. **Execute via tmux**:
    - Create a unique session name: `SESSION_NAME="codex-$(date +%Y%m%d-%H%M%S)"`
    - Run in detached tmux session: `tmux new-session -d -s "$SESSION_NAME" "codex exec [options] 2>&1; sleep 3"`
-   - The `sleep 3` ensures output is fully flushed before session closes
+   - Use `sleep 3` to ensure output is fully flushed before session closes
    - Use the monitoring script: `~/.claude/skills/codex/scripts/monitor-codex.sh "$SESSION_NAME"`
-   - The script intelligently detects when codex completes by monitoring output stability
-   - Automatically captures final output including thinking tokens
-   - No more hardcoded wait times - tasks complete as soon as codex finishes
-7. **Output handling**: Use `2>&1` to capture both stdout and stderr (including thinking tokens) in the tmux session. Users can attach anytime to view real-time output.
+   - The script automatically detects completion and captures final output
+   - Users can attach anytime to view real-time output: `tmux attach -t $SESSION_NAME`
+7. **Output handling**: Use `2>&1` to capture both stdout and stderr (including thinking tokens) in the tmux session.
 8. **When resuming an existing session**: Use `codex exec --skip-git-repo-check resume --last` via stdin. When resuming don't use any configuration flags unless explicitly requested by the user e.g. if they specify the model or the reasoning effort when requesting to resume a session. Resume syntax in tmux: `tmux send-keys -t "$SESSION_NAME" "echo 'your prompt here' | codex exec --skip-git-repo-check resume --last 2>&1" Enter`. All flags must be inserted between exec and resume.
-9. Run the command, capture and display output as it becomes available, and summarize the outcome for the user.
+9. **Monitor with monitor-codex.sh**: After starting the tmux session, run `~/.claude/skills/codex/scripts/monitor-codex.sh "$SESSION_NAME"` to automatically monitor and detect completion. The script will display progress and capture final output when codex finishes.
 10. **After Codex starts**, inform the user:
    - Session name and how to attach: `tmux attach -t codex-YYYYMMDD-HHMMSS`
    - How to detach: Press `Ctrl+B` then `D`
@@ -39,15 +38,15 @@ allowed-tools: Bash, Read, AskUserQuestion
 11. **After Codex completes**, inform the user: "You can resume this Codex session at any time by saying 'codex resume' or asking me to continue with additional analysis or changes."
 
 ### Quick Reference
-| Use case | Sandbox mode | tmux execution pattern |
+| Use case | Sandbox mode | Execution pattern |
 | --- | --- | --- |
-| Check for existing session | N/A | `codex exec --skip-git-repo-check resume --last --dry-run` |
+| Check for existing session | N/A | Look for `codex-YYYYMMDD-HHMMSS` in conversation context |
 | Read-only review or analysis | `read-only` | `SESSION_NAME="codex-$(date +%Y%m%d-%H%M%S)"; tmux new-session -d -s "$SESSION_NAME" "codex exec --sandbox read-only [options] 2>&1; sleep 3"` |
 | Apply local edits | `workspace-write` | `SESSION_NAME="codex-$(date +%Y%m%d-%H%M%S)"; tmux new-session -d -s "$SESSION_NAME" "codex exec --sandbox workspace-write --full-auto [options] 2>&1; sleep 3"` |
 | Permit network or broad access | `danger-full-access` | `SESSION_NAME="codex-$(date +%Y%m%d-%H%M%S)"; tmux new-session -d -s "$SESSION_NAME" "codex exec --sandbox danger-full-access --full-auto [options] 2>&1; sleep 3"` |
-| Resume in existing session | Inherited from original | `tmux send-keys -t "$SESSION_NAME" "echo 'prompt' \| codex exec --skip-git-repo-check resume --last 2>&1; sleep 3" Enter` |
+| Resume in existing session | Inherited from original | `tmux send-keys -t "$SESSION_NAME" "echo 'prompt' \| codex exec --skip-git-repo-check resume --last 2>&1" Enter` |
 | Resume in new session | Inherited from original | `SESSION_NAME="codex-$(date +%Y%m%d-%H%M%S)"; tmux new-session -d -s "$SESSION_NAME" "echo 'prompt' \| codex exec --skip-git-repo-check resume --last 2>&1; sleep 3"` |
-| Run from another directory | Match task needs | Add `-C <DIR>` to the codex command inside tmux |
+| Run from another directory | Match task needs | Add `-C <DIR>` to the codex command |
 | Monitor execution | N/A | `~/.claude/skills/codex/scripts/monitor-codex.sh "$SESSION_NAME"` |
 | Attach to view live | N/A | `tmux attach -t codex-YYYYMMDD-HHMMSS` |
 
@@ -60,13 +59,13 @@ allowed-tools: Bash, Read, AskUserQuestion
 SESSION_NAME="codex-$(date +%Y%m%d-%H%M%S)"
 
 # Start codex in tmux
-tmux new-session -d -s "$SESSION_NAME" "codex exec [options] 2>&1"
+tmux new-session -d -s "$SESSION_NAME" "codex exec [options] 2>&1; sleep 3"
 
 # Monitor with the script
 ~/.claude/skills/codex/scripts/monitor-codex.sh "$SESSION_NAME"
 
-# Optional: specify custom max duration (in iterations, default 180)
-~/.claude/skills/codex/scripts/monitor-codex.sh "$SESSION_NAME" 300  # 10 minutes max
+# Optional: specify custom max duration (in iterations, default 360)
+~/.claude/skills/codex/scripts/monitor-codex.sh "$SESSION_NAME" 360  # 12 minutes max
 ```
 
 **Script features:**
@@ -88,7 +87,7 @@ pgrep -P "$PANE_PID" codex  # Returns PID if running, empty if done
 ```
 
 ## Following Up
-- **Prefer session reuse**: Always check for existing codex sessions before starting new ones. Use `codex exec --skip-git-repo-check resume --last --dry-run` to check availability.
+- **Prefer session reuse**: Always check for existing codex sessions in conversation context before starting new ones (look for `codex-YYYYMMDD-HHMMSS` session names).
 - After every `codex` command, immediately use `AskUserQuestion` to confirm next steps, collect clarifications, or decide whether to resume.
 - **Benefits of session reuse:**
   - Maintains context from previous interactions
