@@ -62,10 +62,6 @@
       "Bash(nmap:*)",
       "Bash(git push:*)"
     ],
-    "ask": [
-      "Read(~/.*)",
-      "Edit(~/.*)"
-    ],
     "defaultMode": "plan",
     "additionalDirectories": [
       "~/.claude",

@@ -35,6 +35,15 @@
         "type": "separator"
       },
       {
+        "id": "a60a4970-21df-41dc-9240-57f13b7b50e1",
+        "type": "git-branch",
+        "rawValue": true
+      },
+      {
+        "id": "7813ae90-a1e9-4396-bfad-0b9af605345f",
+        "type": "separator"
+      },
+      {
         "id": "7",
         "type": "git-changes",
         "color": "green",
