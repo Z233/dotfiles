@@ -3,8 +3,19 @@
   "lines": [
     [
       {
-        "id": "442e9b66-df04-49dd-a01f-305372169493",
-        "type": "model",
+        "id": "90819676-1eac-45a6-821d-810640ccc0af",
+        "type": "custom-command",
+        "color": "cyan",
+        "commandPath": "~/.config/ccstatusline/actual-model.ts"
+      },
+      {
+        "id": "5b5c392f-8b15-4947-9ad9-ae4367a4d223",
+        "type": "separator"
+      },
+      {
+        "id": "0839d0f9-c302-44b9-bc5a-8fb038a6e1c4",
+        "type": "context-length",
+        "color": "blue",
         "rawValue": true
       },
       {
@@ -17,17 +28,7 @@
         "color": "brightRed",
         "commandPath": "curl -s 'http://localhost:4141/usage' \\\n| jq -r '.quota_snapshots.premium_interactions.percent_remaining' \\\n| awk '{printf \"%.1f%%\\n\", 100 - $1}'",
         "preserveColors": false,
-        "timeout": 2000
-      },
-      {
-        "id": "3e056c0c-8305-4c0c-b3d2-37cde3a2caaf",
-        "type": "separator"
-      },
-      {
-        "id": "3",
-        "type": "context-length",
-        "color": "blue",
-        "rawValue": true
+        "timeout": 5000
       },
       {
         "id": "4",
