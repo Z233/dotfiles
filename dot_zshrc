@@ -2,6 +2,7 @@
 path=(
   "$HOME/bin"
   "$HOME/.local/bin"
+  "$HOME/.bun/bin"
   "./node_modules/.bin"
   "/opt/homebrew/bin"
   "/usr/local/bin"
