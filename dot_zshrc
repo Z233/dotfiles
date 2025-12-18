@@ -152,7 +152,15 @@ alias cb='codebuddy-code'
 alias cdx='codex --sandbox=danger-full-access --ask-for-approval=never -c sandbox_workspace_write.network_access=true'
 
 function cc {
-  ccr code "$@"
+  ANTHROPIC_AUTH_TOKEN="test" \
+  ANTHROPIC_API_KEY="" \
+  ANTHROPIC_BASE_URL="http://127.0.0.1:3456" \
+  NO_PROXY="127.0.0.1" \
+  DISABLE_TELEMETRY="true" \
+  DISABLE_COST_WARNINGS="true" \
+  API_TIMEOUT_MS="600000" \
+  CLAUDE_CODE_USE_BEDROCK="" \
+  claude "$@"
 }
 
 if [[ $- == *i* ]]; then
