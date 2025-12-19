@@ -31,6 +31,16 @@
         "timeout": 5000
       },
       {
+        "id": "d009a79e-b361-42a3-8b83-39547bc53e74",
+        "type": "separator"
+      },
+      {
+        "id": "b7e765c4-ed9d-4776-bca0-8af46b88de2d",
+        "type": "custom-command",
+        "commandPath": "basename \"$PWD\"",
+        "color": "yellow"
+      },
+      {
         "id": "4",
         "type": "separator"
       },
