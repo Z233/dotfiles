@@ -8,25 +8,6 @@
 
 ## Tools
 
-### context7
-
-Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
-
-### chrome-devtools
-
-Always use chrome-devtools MCP when I need any of the following frontend tasks:
-
-- Verifying frontend functionality or debugging UI behavior
-- Taking screenshots (IMPORTANT: Always target specific elements only, NEVER capture full-page screenshots as they consume excessive tokens)
-- Viewing browser console logs or errors
-- Analyzing page performance and load times
-- Monitoring network traffic and API requests
-- Inspecting DOM structure or element properties
-
-You must first verify that the current browser page matches the intended target page. Only proceed with tool operations after confirming the correct page context.
-
-The chrome-devtools MCP provides direct browser automation and debugging capabilities for efficient frontend development workflow
-
 ### ast-grep
 
 You run in an environment where `ast-grep` is available; whenever a search requires syntax-aware or structural matching, default to `ast-grep --lang ts -p '<pattern>'` (or set `--lang` appropriately) and avoid falling back to text-only tools like `rg` or `grep` unless I explicitly request a plain-text search.
