@@ -1,5 +1,7 @@
 # Config updated for new Ghostty keybinding system
 
+font-family = "Maple Mono NF CN"
+
 background = #ffffff
 foreground = #000000
 selection-background = #b4d8fd
