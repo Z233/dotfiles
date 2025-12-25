@@ -39,4 +39,6 @@ keybind = cmd+KeyU=text:\x15
 keybind = cmd+KeyD=text:\x04
 keybind = cmd+KeyO=text:\x0f
 
+keybind = shift+enter=text:\x1b\r
+
 macos-titlebar-style = native

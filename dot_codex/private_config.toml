@@ -1,0 +1,19 @@
+notify = ["bash", "-lc", "printf 'Codex turn complete' | shortcuts run \"Notify\""]
+
+model = "gpt-5.2"
+model_provider = "github-copilot"
+model_reasoning_effort = "high"
+
+[model_providers.github-copilot]
+name = "github-copilot"
+base_url = "http://localhost:4141"
+wire_api = "responses"
+request_max_retries = 0
+stream_max_retries = 3
+stream_idle_timeout_ms = 90000
+
+[notice]
+"hide_gpt-5.1-codex-max_migration_prompt" = true
+
+[features]
+shell_snapshot = true
