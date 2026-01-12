@@ -5,8 +5,8 @@ gui:
   nerdFontsVersion: "3"
 git:
   pagers:
-    - colorArg: always
-      pager: delta --light --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+    - externalDiffCommand: difft --color=always --background=light --display=inline --syntax-highlight=on
+    - pager: delta --light --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
 customCommands:
   - key: '<c-f>' # Ctrl-f (think "full screen") to show selected commit
     context: 'commits'
