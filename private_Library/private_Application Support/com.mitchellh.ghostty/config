@@ -1,5 +1,6 @@
 # Config updated for new Ghostty keybinding system
 
+font-family = "Berkeley Mono"
 font-family = "Maple Mono NF CN"
 
 background = #ffffff
@@ -39,6 +40,8 @@ keybind = cmd+KeyU=text:\x15
 keybind = cmd+KeyD=text:\x04
 keybind = cmd+KeyO=text:\x0f
 
-keybind = shift+enter=text:\x1b\r
-
 macos-titlebar-style = native
+
+keybind = shift+enter=text:\x1b\r
+keybind = cmd+r=prompt_surface_title
+

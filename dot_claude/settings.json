@@ -31,7 +31,10 @@
       "Bash(ast-grep:*)",
       "mcp__ide",
       "WebSearch",
-      "WebFetch"
+      "WebFetch",
+      "Bash(git log:*)",
+      "Bash(bun run:*)",
+      "Skill(chrome-devtools)"
     ],
     "deny": [
       "Read(~/Library/**)",
@@ -46,8 +49,6 @@
       "Bash(printenv:*)",
       "Bash(passwd:*)",
       "Bash(history:*)",
-      "Bash(curl:*)",
-      "Bash(wget:*)",
       "Bash(rsync:*)",
       "Bash(scp:*)",
       "Bash(sftp:*)",
@@ -59,12 +60,14 @@
       "Bash(nmap:*)",
       "Bash(git push:*)"
     ],
-    "defaultMode": "plan",
+    "ask": [],
+    "defaultMode": "acceptEdits",
     "additionalDirectories": [
       "~/.claude",
       "~/Developer"
     ]
   },
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -88,5 +91,7 @@
   "feedbackSurveyState": {
     "lastShownTime": 1754047462916
   },
-  "model": "opus"
+  "enabledPlugins": {
+    "planning-with-files@planning-with-files": true
+  }
 }

@@ -37,8 +37,8 @@
       {
         "id": "b7e765c4-ed9d-4776-bca0-8af46b88de2d",
         "type": "custom-command",
-        "commandPath": "basename \"$PWD\"",
-        "color": "yellow"
+        "color": "yellow",
+        "commandPath": "basename \"$PWD\""
       },
       {
         "id": "4",
