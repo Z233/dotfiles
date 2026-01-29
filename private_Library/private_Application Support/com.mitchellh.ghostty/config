@@ -45,3 +45,6 @@ macos-titlebar-style = native
 keybind = shift+enter=text:\x1b\r
 keybind = cmd+r=prompt_surface_title
 
+macos-titlebar-style = native
+macos-option-as-alt = true
+

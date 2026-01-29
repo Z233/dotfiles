@@ -11,6 +11,7 @@
     "allow": [
       "Edit(~/Developer/**)",
       "Grep(~/Developer/**)",
+      "Read(~/Downloads/**)",
       "Bash(git add:*)",
       "Bash(git mv:*)",
       "Bash(git rm:*)",
@@ -49,7 +50,6 @@
       "Bash(printenv:*)",
       "Bash(passwd:*)",
       "Bash(history:*)",
-      "Bash(rsync:*)",
       "Bash(scp:*)",
       "Bash(sftp:*)",
       "Bash(socat:*)",
