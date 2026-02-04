@@ -3,6 +3,7 @@ path=(
   "$HOME/bin"
   "$HOME/.local/bin"
   "$HOME/.bun/bin"
+  "$HOME/.cargo/bin"
   "./node_modules/.bin"
   "/opt/homebrew/bin"
   "/usr/local/bin"
@@ -159,6 +160,7 @@ function cc {
   DISABLE_TELEMETRY="true" \
   DISABLE_COST_WARNINGS="true" \
   API_TIMEOUT_MS="600000" \
+  CLAUDE_CODE_ATTRIBUTION_HEADER=0 \
   CLAUDE_CODE_USE_BEDROCK="" \
   claude "$@"
 }
@@ -183,3 +185,7 @@ fi
 if [ -r "$HOME/.local/bin/env" ]; then
   . "$HOME/.local/bin/env"
 fi
+
+autoload -U compinit
+compinit
+source <(jj util completion zsh)
