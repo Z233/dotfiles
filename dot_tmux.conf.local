@@ -386,8 +386,9 @@ tmux_conf_urlscan_options="--compact --dedupe"
 
 # this is the place to override or undo settings
 
-# lazygit
-bind g new-window -n 'lazygit' lazygit
+# lazygit / lazyjj popups
+bind g display-popup -E -w 90% -h 90% -d '#{pane_current_path}' lazygit
+bind j display-popup -E -w 90% -h 90% -d '#{pane_current_path}' '$HOME/.cargo/bin/lazyjj'
 
 # scroll up/down directly
 bind C-u copy-mode -u
